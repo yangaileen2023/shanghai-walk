@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Walk Shanghai With Me · Aileen</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#faf9f7;color:#1a1a1a;line-height:1.7}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(250,249,247,0.96);backdrop-filter:blur(8px);border-bottom:0.5px solid #e0ddd8;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:56px}
+.nav-logo{font-size:14px;font-weight:500;letter-spacing:0.05em}
+.nav-links{display:flex;gap:1.5rem;font-size:13px;color:#888}
+.nav-links a{cursor:pointer}.nav-links a:hover{color:#1a1a1a}
+.nav-cta{font-size:13px;font-weight:500;background:#1a1a1a;color:#faf9f7;padding:7px 16px;border-radius:999px;cursor:pointer;border:none}
+.nav-cta:hover{background:#333}
+
+/* HERO */
+.hero{text-align:center;padding:5rem 2rem 3.5rem;max-width:700px;margin:0 auto}
+.hero-eyebrow{font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:1.25rem}
+.hero-title{font-size:clamp(38px,6vw,58px);font-weight:400;line-height:1.1;margin-bottom:1.25rem;letter-spacing:-0.02em}
+.hero-title em{font-style:italic;color:#999}
+.hero-desc{font-size:16px;color:#666;max-width:460px;margin:0 auto 2rem;line-height:1.8}
+.host-row{display:inline-flex;align-items:center;gap:10px;background:#fff;border:0.5px solid #e0ddd8;border-radius:999px;padding:7px 18px 7px 8px;font-size:13px;color:#666}
+.avatar-sm{width:32px;height:32px;border-radius:50%;object-fit:cover}
+
+/* ABOUT */
+.about-section{background:#fff;border-top:0.5px solid #e0ddd8;border-bottom:0.5px solid #e0ddd8;padding:4rem 2rem}
+.about-inner{max-width:860px;margin:0 auto;display:grid;grid-template-columns:340px 1fr;gap:3.5rem;align-items:start}
+@media(max-width:680px){.about-inner{grid-template-columns:1fr}}
+.about-photos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.about-photo-main{grid-column:1/-1;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;background:#e8e5e0}
+.about-photo-secondary{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;background:#e8e5e0}
+.about-photo-placeholder{display:flex;align-items:center;justify-content:center;font-size:12px;color:#bbb;background:#f0ede8;border-radius:10px}
+.about-text{}
+.about-eyebrow{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#999;margin-bottom:1rem}
+.about-name{font-size:28px;font-weight:500;margin-bottom:1.25rem;letter-spacing:-0.01em}
+.about-body{font-size:15px;color:#555;line-height:1.85;margin-bottom:1.5rem}
+.about-body p{margin-bottom:1rem}
+.about-body p:last-child{margin-bottom:0}
+.credentials{display:flex;flex-direction:column;gap:8px;margin-bottom:1.5rem}
+.cred{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:#666}
+.cred-icon{width:20px;height:20px;background:#f0ede8;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px}
+.passport{margin-top:1.25rem}
+.passport-title{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#999;margin-bottom:10px}
+.passport-flags{display:flex;flex-wrap:wrap;gap:6px}
+.flag-chip{font-size:12px;background:#f0ede8;border-radius:999px;padding:4px 10px;color:#666}
+
+/* ROUTES */
+.sec-title{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#999;text-align:center;padding:2.5rem 2rem 1.25rem}
+.tabs{display:flex;justify-content:center;gap:0;border-bottom:0.5px solid #e0ddd8;margin:0 2rem;overflow-x:auto}
+.tab{padding:10px 18px;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;color:#999;transition:all 0.2s;white-space:nowrap;flex-shrink:0}
+.tab.active{color:#1a1a1a;border-bottom-color:#1a1a1a}
+.tab:hover{color:#444}
+.route-panel{display:none;padding:2rem;max-width:860px;margin:0 auto}
+.route-panel.active{display:block}
+.route-hero-img{width:100%;height:280px;object-fit:cover;border-radius:12px;margin-bottom:1.5rem;background:#e8e5e0}
+.img-placeholder{display:flex;align-items:center;justify-content:center;color:#ccc;font-size:13px;height:280px;background:#f0ede8;border-radius:12px;margin-bottom:1.5rem}
+.route-num{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#999;margin-bottom:4px}
+.route-name{font-size:26px;font-weight:500;margin-bottom:6px;letter-spacing:-0.01em}
+.route-tagline{font-size:15px;color:#666;line-height:1.7}
+.route-meta{display:flex;gap:8px;flex-wrap:wrap;margin:1.25rem 0;font-size:13px;color:#888}
+.meta-chip{background:#f0ede8;border-radius:999px;padding:4px 12px}
+.stops-title{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#999;margin-bottom:1rem}
+.stops-list{display:flex;flex-direction:column}
+.stop-item{display:flex;gap:14px;padding:14px 0;border-bottom:0.5px solid #f0ede8}
+.stop-item:last-child{border-bottom:none}
+.stop-num{font-size:11px;color:#bbb;font-weight:500;min-width:20px;margin-top:3px}
+.stop-name{font-size:14px;font-weight:500;color:#1a1a1a;margin-bottom:2px}
+.stop-desc{font-size:13px;color:#888;line-height:1.5}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem}
+@media(max-width:540px){.two-col{grid-template-columns:1fr}}
+.section-block{background:#fff;border:0.5px solid #e0ddd8;border-radius:12px;padding:1.25rem}
+.block-title{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#999;margin-bottom:1rem}
+.food-item{margin-bottom:0.75rem}
+.food-item:last-child{margin-bottom:0}
+.food-name{font-size:14px;font-weight:500;color:#1a1a1a}
+.food-note{font-size:13px;color:#888;line-height:1.5}
+.season-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:0.75rem}
+.season{text-align:center;padding:10px 4px;border-radius:8px;font-size:11px}
+.season.best{background:#e8f5e9;color:#2e7d32}
+.season.ok{background:#f0ede8;color:#888}
+.season.avoid{background:#fce4ec;color:#c62828}
+.season-name{font-weight:500;margin-bottom:2px}
+.season-note{font-size:10px;opacity:0.85}
+.pick-wrap{margin-top:1.5rem;text-align:center}
+.pick-btn{display:inline-block;padding:12px 28px;background:#1a1a1a;color:#faf9f7;border-radius:999px;font-size:14px;font-weight:500;cursor:pointer;border:none;transition:background 0.2s}
+.pick-btn:hover{background:#333}
+
+/* BOOKING */
+.booking-section{background:#fff;border-top:0.5px solid #e0ddd8;padding:4rem 2rem;margin-top:1rem}
+.booking-inner{max-width:560px;margin:0 auto}
+.booking-title{font-size:26px;font-weight:500;margin-bottom:0.5rem;letter-spacing:-0.01em}
+.booking-sub{font-size:15px;color:#666;margin-bottom:2rem;line-height:1.7}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:480px){.form-row{grid-template-columns:1fr}}
+.form-field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.form-field label{font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#999}
+.form-field input,.form-field select,.form-field textarea{border:0.5px solid #e0ddd8;border-radius:8px;padding:10px 12px;font-size:14px;background:#faf9f7;color:#1a1a1a;outline:none;font-family:inherit;width:100%}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:#1a1a1a}
+.form-field textarea{resize:vertical;min-height:90px}
+.submit-btn{width:100%;padding:13px;background:#1a1a1a;color:#faf9f7;border:none;border-radius:999px;font-size:14px;font-weight:500;cursor:pointer;margin-top:8px;transition:background 0.2s}
+.submit-btn:hover{background:#333}
+.success-msg{display:none;text-align:center;padding:2rem;background:#e8f5e9;border-radius:12px;color:#2e7d32;font-size:15px;line-height:1.7}
+
+footer{text-align:center;padding:2rem;font-size:12px;color:#bbb;border-top:0.5px solid #e0ddd8}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Walk Shanghai With Me</div>
+  <div class="nav-links">
+    <a onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">About</a>
+    <a onclick="document.getElementById('routes').scrollIntoView({behavior:'smooth'})">Routes</a>
+    <a onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'})">Book</a>
+  </div>
+  <button class="nav-cta" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'})">Book a walk</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Shanghai City Walk · 5 hours</div>
+  <h1 class="hero-title">See Shanghai<br><em>like a local</em></h1>
+  <p class="hero-desc">Three curated walks through the city's most alive neighbourhoods — fashion, history, street food, and design. Pick your route, I'll do the rest.</p>
+  <div class="host-row">
+    <!-- Replace the src below with your portrait photo URL after deploying -->
+    <img class="avatar-sm" src="YOUR_PORTRAIT_URL" onerror="this.style.display='none'" alt="Aileen"/>
+    <span>Hosted by Aileen &nbsp;·&nbsp; Shanghai local &nbsp;·&nbsp; Always free to ask questions</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="about-section" id="about">
+  <div class="about-inner">
+    <div class="about-photos">
+      <!-- Replace src values with your actual image URLs after deploying -->
+      <img class="about-photo-main" src="YOUR_PORTRAIT_URL" alt="Aileen" onerror="this.outerHTML='<div class=\'about-photo-main about-photo-placeholder\'>Portrait photo</div>'"/>
+      <img class="about-photo-secondary" src="YOUR_PARIS_PHOTO_URL" alt="Aileen in Paris" onerror="this.outerHTML='<div class=\'about-photo-secondary about-photo-placeholder\'>Travel photo</div>'"/>
+      <div class="about-photo-secondary about-photo-placeholder">More photos</div>
+    </div>
+    <div class="about-text">
+      <div class="about-eyebrow">Your guide</div>
+      <div class="about-name">Aileen</div>
+      <div class="about-body">
+        <p>I'm an HR professional with 20 years of experience working across multinational companies in Shanghai. I studied for my Master's degree in Manchester, UK, and have spent much of my adult life moving between cultures — living, working, and travelling across Europe, the Middle East, and Asia.</p>
+        <p>I've wandered through the backstreets of Prague, gotten lost in the souks of Dubai, chased the best bánh mì in Hội An, and hiked through the Swiss Alps — so when I say I know what it feels like to arrive somewhere new and not know where to begin, I mean it.</p>
+        <p>Shanghai has been my home for years. I know which café has the best light in the morning, which noodle shop the locals actually go to, and which turns on Wukang Road are worth slowing down for. These walks are the version of Shanghai I'd show a close friend — no tourist traps, no rushed itineraries, just the city at its best.</p>
+      </div>
+      <div class="credentials">
+        <div class="cred"><div class="cred-icon">🎓</div><span>Master's degree — University of Manchester, UK</span></div>
+        <div class="cred"><div class="cred-icon">💼</div><span>20 years in HR across multinational corporations</span></div>
+        <div class="cred"><div class="cred-icon">🏙</div><span>Shanghai resident — knows every lane worth knowing</span></div>
+      </div>
+      <div class="passport">
+        <div class="passport-title">Countries visited</div>
+        <div class="passport-flags">
+          <span class="flag-chip">🇬🇧 UK</span>
+          <span class="flag-chip">🇨🇭 Switzerland</span>
+          <span class="flag-chip">🇨🇿 Czech Republic</span>
+          <span class="flag-chip">🇫🇷 France</span>
+          <span class="flag-chip">🇪🇸 Spain</span>
+          <span class="flag-chip">🇦🇪 Dubai</span>
+          <span class="flag-chip">🇯🇵 Japan</span>
+          <span class="flag-chip">🇻🇳 Vietnam</span>
+          <span class="flag-chip">🇰🇭 Cambodia</span>
+          <span class="flag-chip">🇲🇾 Malaysia</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ROUTES -->
+<div id="routes">
+  <div class="sec-title">Choose your route</div>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab(0)">01 · The Stylish West</div>
+    <div class="tab" onclick="switchTab(1)">02 · Old Meets New</div>
+    <div class="tab" onclick="switchTab(2)">03 · Cool &amp; Underground</div>
+  </div>
+
+  <!-- ROUTE 1 -->
+  <div class="route-panel active" id="panel0">
+    <img class="route-hero-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Wukang_Mansion.jpg/1280px-Wukang_Mansion.jpg" alt="Wukang Road" onerror="this.outerHTML='<div class=\'img-placeholder\'>Wukang Road · French Concession</div>'"/>
+    <div class="route-num">Route 01</div>
+    <div class="route-name">The Stylish West</div>
+    <p class="route-tagline">Tree-lined lanes, art deco villas, the best independent coffee in the city, and the street that gave Shanghai its reputation for effortless cool.</p>
+    <div class="route-meta">
+      <span class="meta-chip">5 hours</span><span class="meta-chip">~6 km</span><span class="meta-chip">Mostly flat</span><span class="meta-chip">French Concession</span>
+    </div>
+    <div class="stops-title">Stops along the way</div>
+    <div class="stops-list">
+      <div class="stop-item"><div class="stop-num">01</div><div><div class="stop-name">Wukang Road &amp; Wukang Mansion</div><div class="stop-desc">Start at the iconic fan-shaped building from 1924. The whole street is lined with French plane trees and restored villas — ideal for a slow morning stroll.</div></div></div>
+      <div class="stop-item"><div class="stop-num">02</div><div><div class="stop-name">Anfu Road</div><div class="stop-desc">Shanghai's most beloved café strip. Pick up a coffee and watch the city's creative crowd cycle past. Baker &amp; Spice is a local institution here.</div></div></div>
+      <div class="stop-item"><div class="stop-num">03</div><div><div class="stop-name">Wulumuqi Road</div><div class="stop-desc">A quieter lane with independent bookshops, vintage stores, and neighbourhood restaurants that haven't changed in decades.</div></div></div>
+      <div class="stop-item"><div class="stop-num">04</div><div><div class="stop-name">Fuxing Park</div><div class="stop-desc">The French Concession's open-air living room. On weekday mornings you'll find tai chi, card games, and old men playing erhu — genuinely Shanghai.</div></div></div>
+    </div>
+    <div class="two-col">
+      <div class="section-block">
+        <div class="block-title">Where we eat &amp; drink</div>
+        <div class="food-item"><div class="food-name">Baker &amp; Spice (Anfu Rd)</div><div class="food-note">Sourdough, pastries, excellent iced coffee. Sit outside if it's not too hot.</div></div>
+        <div class="food-item"><div class="food-name">Egg (Xinle Rd)</div><div class="food-note">Tiny brunch spot beloved by expats and locals alike. Order the eggs benedict.</div></div>
+        <div class="food-item"><div class="food-name">Liquid Laundry</div><div class="food-note">Craft beer and wood-fired pizza near Fuxing Park — good for a late afternoon wind-down.</div></div>
+        <div class="food-item"><div class="food-name">Street tanghulu</div><div class="food-note">Candied hawthorn on a stick from the park entrance vendor. Non-negotiable.</div></div>
+      </div>
+      <div class="section-block">
+        <div class="block-title">Best seasons</div>
+        <div class="season-grid">
+          <div class="season ok"><div class="season-name">Winter</div><div class="season-note">Quiet, bare trees</div></div>
+          <div class="season best"><div class="season-name">Spring</div><div class="season-note">Trees bloom — stunning</div></div>
+          <div class="season best"><div class="season-name">Autumn</div><div class="season-note">Golden leaves</div></div>
+          <div class="season avoid"><div class="season-name">Summer</div><div class="season-note">35°C+, humid</div></div>
+        </div>
+        <p style="font-size:12px;color:#aaa;margin-top:10px;line-height:1.6">Peak: <strong>March–May</strong> and <strong>Oct–Nov</strong>. The plane trees make this route magical in autumn.</p>
+      </div>
+    </div>
+    <div class="pick-wrap"><button class="pick-btn" id="pick0" onclick="selectRoute(0,'Route 01 · The Stylish West')">I want this walk →</button></div>
+  </div>
+
+  <!-- ROUTE 2 -->
+  <div class="route-panel" id="panel1">
+    <div class="img-placeholder">The Bund · Shanghai</div>
+    <div class="route-num">Route 02</div>
+    <div class="route-name">Old Meets New</div>
+    <p class="route-tagline">The world-famous waterfront, six centuries of Chinese garden design, and the street food lanes where Shanghai's soul still lives.</p>
+    <div class="route-meta">
+      <span class="meta-chip">5 hours</span><span class="meta-chip">~7 km</span><span class="meta-chip">Easy pace</span><span class="meta-chip">Huangpu District</span>
+    </div>
+    <div class="stops-title">Stops along the way</div>
+    <div class="stops-list">
+      <div class="stop-item"><div class="stop-num">01</div><div><div class="stop-name">The Bund (Waitan)</div><div class="stop-desc">Start at the promenade when morning light hits the Pudong skyline. Over 50 heritage buildings line this 1.5 km stretch — each one worth stopping for.</div></div></div>
+      <div class="stop-item"><div class="stop-num">02</div><div><div class="stop-name">Nanjing Road Pedestrian Street</div><div class="stop-desc">The pulse of the city. Department stores, street vendors, local snack chains. Head inland to escape the tourist flow and find where locals actually shop.</div></div></div>
+      <div class="stop-item"><div class="stop-num">03</div><div><div class="stop-name">Yu Garden (Yuyuan)</div><div class="stop-desc">A Ming dynasty garden built in 1559. Rockeries, koi ponds, zigzag bridges. Arrive before 10am to avoid the crowds. The teahouse inside is worth a sit-down.</div></div></div>
+      <div class="stop-item"><div class="stop-num">04</div><div><div class="stop-name">Old City lanes</div><div class="stop-desc">The Chenxiangge area around Yu Garden — narrow lanes with street food stalls, wet markets, and neighbourhood life that's vanishing fast.</div></div></div>
+    </div>
+    <div class="two-col">
+      <div class="section-block">
+        <div class="block-title">Where we eat &amp; drink</div>
+        <div class="food-item"><div class="food-name">Nanxiang Steamed Bun Restaurant</div><div class="food-note">Legendary xiaolongbao beside Yu Garden. Queue is worth it — order the crab roe ones.</div></div>
+        <div class="food-item"><div class="food-name">Jia Jia Tang Bao</div><div class="food-note">Humbler, cheaper, arguably better. A true local institution for soup dumplings.</div></div>
+        <div class="food-item"><div class="food-name">Old Jesse (Tianping Rd)</div><div class="food-note">Classic Shanghainese home cooking — braised pork belly, drunken chicken, stir-fried river shrimp.</div></div>
+        <div class="food-item"><div class="food-name">Scallion pancakes (cong you bing)</div><div class="food-note">From any street cart near the old city. Hot, flaky, ¥5. Shanghai's best snack.</div></div>
+      </div>
+      <div class="section-block">
+        <div class="block-title">Best seasons</div>
+        <div class="season-grid">
+          <div class="season ok"><div class="season-name">Winter</div><div class="season-note">Low crowds</div></div>
+          <div class="season best"><div class="season-name">Spring</div><div class="season-note">Mild &amp; bright</div></div>
+          <div class="season best"><div class="season-name">Autumn</div><div class="season-note">Ideal walking</div></div>
+          <div class="season avoid"><div class="season-name">Summer</div><div class="season-note">Packed &amp; hot</div></div>
+        </div>
+        <p style="font-size:12px;color:#aaa;margin-top:10px;line-height:1.6">Yu Garden is closed on Mondays. The Bund before 9am has the best light and fewest people.</p>
+      </div>
+    </div>
+    <div class="pick-wrap"><button class="pick-btn" id="pick1" onclick="selectRoute(1,'Route 02 · Old Meets New')">I want this walk →</button></div>
+  </div>
+
+  <!-- ROUTE 3 -->
+  <div class="route-panel" id="panel2">
+    <div class="img-placeholder">Tianzifang · Shanghai</div>
+    <div class="route-num">Route 03</div>
+    <div class="route-name">Cool &amp; Underground</div>
+    <p class="route-tagline">Shikumen alleyways reimagined, art studios, designers you won't find in any travel guide, and the rooftop views that justify the walk.</p>
+    <div class="route-meta">
+      <span class="meta-chip">5 hours</span><span class="meta-chip">~5.5 km</span><span class="meta-chip">Leisurely</span><span class="meta-chip">Luwan / Xuhui</span>
+    </div>
+    <div class="stops-title">Stops along the way</div>
+    <div class="stops-list">
+      <div class="stop-item"><div class="stop-num">01</div><div><div class="stop-name">Xintiandi</div><div class="stop-desc">Old shikumen stone-gate houses reimagined as restaurants, galleries and boutiques. The architecture is genuinely impressive — old bricks, new money, interesting tension.</div></div></div>
+      <div class="stop-item"><div class="stop-num">02</div><div><div class="stop-name">Tianzifang</div><div class="stop-desc">A warren of tiny lanes with ceramics studios, indie designers, and rooftop workshops. Go deeper than the main lane — the good stuff is always one more turn away.</div></div></div>
+      <div class="stop-item"><div class="stop-num">03</div><div><div class="stop-name">Huaihai Road</div><div class="stop-desc">Shanghai's answer to Champs-Élysées. International flagships next to local fashion labels and concept stores. The sycamore trees overhead make it feel like a film set.</div></div></div>
+      <div class="stop-item"><div class="stop-num">04</div><div><div class="stop-name">K11 Musea</div><div class="stop-desc">A shopping mall where every floor has serious contemporary art installations. The rooftop terrace gives you the Huangpu and Pudong at once — unbeatable for a late-afternoon view.</div></div></div>
+    </div>
+    <div class="two-col">
+      <div class="section-block">
+        <div class="block-title">Where we eat &amp; drink</div>
+        <div class="food-item"><div class="food-name">Chua Lam's Dim Sum (Xintiandi)</div><div class="food-note">Elevated HK-style dim sum in a beautiful setting. The har gow is exceptional.</div></div>
+        <div class="food-item"><div class="food-name">Wagas</div><div class="food-note">Fresh bowls, salads, and serious smoothies. Good for a midwalk refuel.</div></div>
+        <div class="food-item"><div class="food-name">Taiko (Tianzifang)</div><div class="food-note">Japanese-inspired small plates in a laneway setting. Order the black sesame soft serve after.</div></div>
+        <div class="food-item"><div class="food-name">K11 Rooftop Bar</div><div class="food-note">End the walk here with a cocktail and the city spread out below. Golden hour is the moment.</div></div>
+      </div>
+      <div class="section-block">
+        <div class="block-title">Best seasons</div>
+        <div class="season-grid">
+          <div class="season ok"><div class="season-name">Winter</div><div class="season-note">Quiet &amp; cosy</div></div>
+          <div class="season best"><div class="season-name">Spring</div><div class="season-note">Perfect temp</div></div>
+          <div class="season best"><div class="season-name">Autumn</div><div class="season-note">Best for photos</div></div>
+          <div class="season avoid"><div class="season-name">Summer</div><div class="season-note">Very crowded</div></div>
+        </div>
+        <p style="font-size:12px;color:#aaa;margin-top:10px;line-height:1.6">Best on weekday mornings before Tianzifang fills up. Weekend afternoons in summer can feel overwhelming in the narrow lanes.</p>
+      </div>
+    </div>
+    <div class="pick-wrap"><button class="pick-btn" id="pick2" onclick="selectRoute(2,'Route 03 · Cool & Underground')">I want this walk →</button></div>
+  </div>
+</div>
+
+<!-- BOOKING -->
+<div class="booking-section" id="book">
+  <div class="booking-inner">
+    <h2 class="booking-title">Book your walk</h2>
+    <p class="booking-sub">Fill in your details and Aileen will get back to you within 24 hours to confirm the date, meeting point, and any questions you have.</p>
+    <div id="booking-form">
+      <div class="form-row">
+        <div class="form-field"><label>Your name</label><input type="text" id="f-name" placeholder="e.g. Sarah"/></div>
+        <div class="form-field"><label>Email</label><input type="email" id="f-email" placeholder="sarah@email.com"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Preferred date</label><input type="date" id="f-date"/></div>
+        <div class="form-field"><label>Group size</label>
+          <select id="f-size">
+            <option>1 person</option><option>2 people</option><option>3 people</option><option>4 people</option><option>5+ people</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-field"><label>Route preference</label>
+        <select id="f-route">
+          <option value="">— choose a route —</option>
+          <option value="r1">Route 01 · The Stylish West</option>
+          <option value="r2">Route 02 · Old Meets New</option>
+          <option value="r3">Route 03 · Cool &amp; Underground</option>
+          <option value="surprise">Surprise me!</option>
+        </select>
+      </div>
+      <div class="form-field"><label>Anything else? (interests, dietary needs, mobility notes)</label>
+        <textarea id="f-notes" placeholder="e.g. We love art and street food, one person is vegetarian…"></textarea>
+      </div>
+      <button class="submit-btn" onclick="submitForm()">Send booking request →</button>
+    </div>
+    <div class="success-msg" id="success-msg">
+      ✓ &nbsp; Thank you! Aileen will be in touch within 24 hours to confirm your walk.<br>See you in Shanghai.
+    </div>
+  </div>
+</div>
+
+<footer>Walk Shanghai With Me &nbsp;·&nbsp; Made with love in Shanghai</footer>
+
+<script>
+function switchTab(i){
+  document.querySelectorAll('.tab').forEach(function(t,idx){t.classList.toggle('active',idx===i)});
+  document.querySelectorAll('.route-panel').forEach(function(p,idx){p.classList.toggle('active',idx===i)});
+}
+function selectRoute(i,name){
+  document.querySelectorAll('.pick-btn').forEach(function(b,idx){
+    b.textContent=idx===i?'Selected ✓':'I want this walk →';
+    b.style.background=idx===i?'#5a3fb5':'#1a1a1a';
+  });
+  var map={'0':'r1','1':'r2','2':'r3'};
+  document.getElementById('f-route').value=map[i]||'';
+  document.getElementById('book').scrollIntoView({behavior:'smooth'});
+}
+function submitForm(){
+  var n=document.getElementById('f-name').value.trim();
+  var e=document.getElementById('f-email').value.trim();
+  if(!n||!e){alert('Please fill in your name and email.');return}
+  document.getElementById('booking-form').style.display='none';
+  document.getElementById('success-msg').style.display='block';
+}
+</script>
+</body>
+</html>
